@@ -25,7 +25,7 @@
     </ol>
     <h3>Usage</h3>
     <ol>
-        <li>Open the <code>index.js</code> file in a text editor.</li>
+        <li>Open the <code>vote.js</code> file in a text editor.</li>
         <li>Update the <code>urls</code> array with the URLs you want to scrape data from.</li>
         <li>Run the script using the following command:
             <pre>node vote.js</pre>
