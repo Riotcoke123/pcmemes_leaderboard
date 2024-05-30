@@ -1,19 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>pcmemes.net leaderboard</title>
-    <style>
-        body {
-            text-align: center;
-        }
-        img {
-            display: block;
-            margin: 0 auto;
-        }
-    </style>
-</head>
+
 <body>
     <h1>pcmemes.net leaderboard</h1>
     <img src="https://github.com/Riotcoke123/pcmemes_leaderboard/assets/63672863/1bf6daf3-afbe-456d-b607-b2ae5bb6dce9" alt="pcmemes.net leaderboard image">
