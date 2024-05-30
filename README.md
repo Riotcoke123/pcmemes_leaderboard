@@ -28,12 +28,12 @@
         <li>Open the <code>index.js</code> file in a text editor.</li>
         <li>Update the <code>urls</code> array with the URLs you want to scrape data from.</li>
         <li>Run the script using the following command:
-            <pre>node index.js</pre>
+            <pre>node vote.js</pre>
         </li>
-        <li>The script will scrape data from the provided URLs, remove duplicate usernames, sort posts by score, add ranking, and save the usernames, scores, and ranks to a JSON file located at <code>C:\Users\srrm4\OneDrive\Desktop\all.json</code>.</li>
+        <li>The script will scrape data from the provided URLs, remove duplicate usernames, sort posts by score, add ranking, and save the usernames, scores, and ranks to a JSON file located at <code>all.json</code>.</li>
     </ol>
     <h3>Automating Updates</h3>
-    <p>You can automate the script to update data periodically by modifying the <code>setInterval</code> function call at the end of the <code>index.js</code> file. By default, it updates every 3 minutes.</p>
+    <p>You can automate the script to update data periodically by modifying the <code>setInterval</code> function call at the end of the <code>vote.js</code> file. By default, it updates every 3 minutes.</p>
     <h3>Notes</h3>
     <ul>
         <li>Make sure to adjust file paths and URLs according to your environment and requirements.</li>
