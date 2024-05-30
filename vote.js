@@ -7,7 +7,7 @@ const path = require('path');
 // Function to fetch and scrape post data from a URL
 async function getPostData(url) {
     const headers = {
-        'Authorization': 'uVQuT5zBpHnSaJpmJkKolramkwIUCTX4pAuYTUK4SnrCngk5Lp-w1QjMfLSskQrv-ljbRwUN6af40g8mH0XA8j0BYxmdxxTQgCF3GfKh6ucXd-v9LBYdvd4_D45sABHN'
+        'Authorization': ''
     };
 
     try {
@@ -81,7 +81,7 @@ function saveToJson(posts) {
         };
     });
 
-    const filePath = path.join('C:\\', 'Users', 'srrm4', 'OneDrive', 'Desktop', 'all.json');
+    const filePath = path.join('all.json');
     fs.writeFile(filePath, JSON.stringify(usernamesAndScores, null, 4), (err) => {
         if (err) {
             console.error('Error saving usernames and scores to JSON file:', err);
