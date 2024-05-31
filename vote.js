@@ -7,7 +7,7 @@ const path = require('path');
 // Function to fetch and scrape post data from a URL
 async function getPostData(url) {
     const headers = {
-        'Authorization': ''
+        'Authorization': 'uVQuT5zBpHnSaJpmJkKolramkwIUCTX4pAuYTUK4SnrCngk5Lp-w1QjMfLSskQrv-ljbRwUN6af40g8mH0XA8j0BYxmdxxTQgCF3GfKh6ucXd-v9LBYdvd4_D45sABHN'
     };
 
     try {
@@ -20,26 +20,26 @@ async function getPostData(url) {
             const postData = {};
 
             // Scrape voting element
-            const votingElement = $(element).find('div.d-flex.flex-row-reverse.flex-md-row.flex-nowrap > div.voting.my-2.d-none.d-md-flex.pr-2');
+            const votingElement = $(element).find('.voting.my-2.d-none.d-md-flex.pr-2');
+
             if (votingElement.length) {
                 // Scrape upvotes
-                const upvotesText = votingElement.find('.arrow-up').text().trim();
+                const upvotesText = votingElement.find('.post--up').text().trim();
                 const upvotes = upvotesText && !isNaN(upvotesText) ? parseInt(upvotesText) : 0;
-                const upvoteScore = upvotes * 0.0002223569;
+                const upvoteScore = upvotes * 0.0023547;
 
                 // Scrape downvotes
-                const downvotesText = votingElement.find('.arrow-down').text().trim();
+                const downvotesText = votingElement.find('.post--down').text().trim();
                 const downvotes = downvotesText && !isNaN(downvotesText) ? parseInt(downvotesText) : 0;
-                const downvotePenalty = downvotes * 0.00052222222222;
+                const downvotePenalty = downvotes * 0.01234;
 
                 // Calculate combined score
-                const combinedScore = upvoteScore - downvotePenalty;
-
-                postData.score = combinedScore;
+                const score = upvoteScore - downvotePenalty;
+                postData.score = score;
             }
 
             // Scrape username
-            const usernameElement = $(element).find('div.d-flex.flex-row-reverse.flex-md-row.flex-nowrap > div.card-block.text-left.x-scroll-parent.w-100 > div > div > a > span');
+            const usernameElement = $(element).find('div.card-block.text-left.x-scroll-parent.w-100 > div > div > a > span');
             const username = usernameElement.text().trim();
             postData.username = username;
 
@@ -81,7 +81,7 @@ function saveToJson(posts) {
         };
     });
 
-    const filePath = path.join('all.json');
+    const filePath = path.join('C:\\', 'Users', 'srrm4', 'OneDrive', 'Desktop', 'all.json');
     fs.writeFile(filePath, JSON.stringify(usernamesAndScores, null, 4), (err) => {
         if (err) {
             console.error('Error saving usernames and scores to JSON file:', err);
@@ -94,12 +94,13 @@ function saveToJson(posts) {
 // Main function to handle the scraping and saving of data
 async function main() {
     const urls = [
-        'https://pcmemes.net/'
+        { url: 'https://pcmemes.net/?ccmode=&sort=hot&t=day' },
+        { url: 'https://pcmemes.net/?ccmode=&sort=new&t=day' }
     ];
 
     let allPosts = [];
 
-    for (const url of urls) {
+    for (const { url } of urls) {
         const posts = await getPostData(url);
         allPosts = allPosts.concat(posts);
         await sleep(1000);  // Sleep for 1 second to avoid rate limiting
@@ -118,5 +119,5 @@ function sleep(ms) {
 // Execute main function initially
 main();
 
-// Update every 3 minutes
-setInterval(main, 3 * 60 * 1000); // 3 minutes
+// Update every 120 seconds
+setInterval(main, 120 * 1000); // 120 seconds
