@@ -3,8 +3,8 @@ from bs4 import BeautifulSoup
 import json
 
 # Access token and Client ID
-access_token = ''
-client_id = ''
+access_token = 'uVQuT5zBpHnSaJpmJkKolramkwIUCTX4pAuYTUK4SnrCngk5Lp-w1QjMfLSskQrv-ljbRwUN6af40g8mH0XA8j0BYxmdxxTQgCF3GfKh6ucXd-v9LBYdvd4_D45sABHN'
+client_id = 'HD4kXXPjIlJ_VycPFS_4yI8q5CGq2uXSxEwUb4JuyTlK8qkCoWnLjnOc_0zL9Ffg'
 
 # List of URLs to scrape
 urls = [
@@ -19,16 +19,16 @@ urls = [
 headers = {
     'Authorization': f'Bearer {access_token}',
     'Client-ID': client_id,
-    'Content-Type': 'application/json'
+    'Content-Type': 'application/json',
+    'X-Author': 'riotcoke'
 }
 
 # CSS selectors
 username_selector = 'a.user-name.text-decoration-none > span'
-# Placeholder for correct upvote selector
-upvote_selector = 'div.voting > div.post--up'  # Update this with the correct selector
+upvote_selector = 'div.d-flex.flex-row-reverse.flex-md-row.flex-nowrap'
 
-# List to hold the scraped data
-data = []
+# Dictionary to hold the scraped data
+data_dict = {}
 
 # Loop through each URL and scrape the data
 for url in urls:
@@ -52,19 +52,19 @@ for url in urls:
         print(f"Raw upvote text: {upvote_text}")
         
         try:
-            upvote_value = int(upvote_text) * 0.002222222
+            upvote_value = int(upvote_text) * 0.00235789
         except ValueError:
             upvote_value = 0
 
-        # Debugging: Print each extracted username and upvote
-        print(f"Username: {username_text}, Upvote: {upvote_value}")
+        # Update the dictionary with the highest upvote value for each username
+        if username_text in data_dict:
+            if upvote_value > data_dict[username_text]:
+                data_dict[username_text] = upvote_value
+        else:
+            data_dict[username_text] = upvote_value
 
-        data.append({
-            'username': username_text,
-            'upvote': upvote_value
-        })
-
-# Sort the data by upvote in descending order
+# Convert the dictionary to a list of dictionaries and sort the data by upvote in descending order
+data = [{'username': k, 'upvote': v} for k, v in data_dict.items()]
 data.sort(key=lambda x: x['upvote'], reverse=True)
 
 # Add ranking to the data
@@ -72,8 +72,11 @@ for index, item in enumerate(data):
     item['rank'] = index + 1
 
 # Specify the path where the JSON file will be saved
-file_path = 'vote.json'
+file_path = 'C:\\Users\\srrm4\\OneDrive\\Desktop\\vote.json'
 
 # Save the data to a JSON file
 with open(file_path, 'w') as json_file:
     json.dump(data, json_file, indent=4)
+
+# Debugging: Print the final sorted and ranked data
+print(json.dumps(data, indent=4))
