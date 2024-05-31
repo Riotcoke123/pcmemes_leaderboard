@@ -3,8 +3,8 @@ from bs4 import BeautifulSoup
 import json
 
 # Access token and Client ID
-access_token = 'uVQuT5zBpHnSaJpmJkKolramkwIUCTX4pAuYTUK4SnrCngk5Lp-w1QjMfLSskQrv-ljbRwUN6af40g8mH0XA8j0BYxmdxxTQgCF3GfKh6ucXd-v9LBYdvd4_D45sABHN'
-client_id = 'HD4kXXPjIlJ_VycPFS_4yI8q5CGq2uXSxEwUb4JuyTlK8qkCoWnLjnOc_0zL9Ffg'
+access_token = ''
+client_id = ''
 
 # List of URLs to scrape
 urls = [
@@ -72,7 +72,7 @@ for index, item in enumerate(data):
     item['rank'] = index + 1
 
 # Specify the path where the JSON file will be saved
-file_path = 'C:\\Users\\srrm4\\OneDrive\\Desktop\\vote.json'
+file_path = '\vote.json'
 
 # Save the data to a JSON file
 with open(file_path, 'w') as json_file:
