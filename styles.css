@@ -1,0 +1,41 @@
+body {
+    background-color: white; /* Change background color to white */
+    color: black; /* Set text color to black */
+    text-align: center; /* Center align text */
+}
+
+table {
+    margin: 0 auto; /* Center align table */
+    width: 100%;
+    border-collapse: collapse;
+    border: 2px solid black; /* Add black border around the table */
+}
+
+th, td {
+    border: 1px solid black; /* Add black border around table cells */
+    padding: 8px;
+    text-align: left;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+h2 {
+    text-align: center; /* Center align the heading */
+}
+
+thead tr {
+    background-color: purple; /* Set header row background color to purple */
+}
+
+thead th {
+    color: black; /* Set header text color to black */
+}
+
+.center-image {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%; /* Adjust width as needed */
+}
