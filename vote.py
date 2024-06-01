@@ -5,8 +5,8 @@ import time
 import re
 
 # Access token and Client ID
-access_token = 'uVQuT5zBpHnSaJpmJkKolramkwIUCTX4pAuYTUK4SnrCngk5Lp-w1QjMfLSskQrv-ljbRwUN6af40g8mH0XA8j0BYxmdxxTQgCF3GfKh6ucXd-v9LBYdvd4_D45sABHN'
-client_id = 'HD4kXXPjIlJ_VycPFS_4yI8q5CGq2uXSxEwUb4JuyTlK8qkCoWnLjnOc_0zL9Ffg'
+access_token = ''
+client_id = ''
 
 # List of URLs to scrape
 urls = [
@@ -30,7 +30,7 @@ username_selector = 'a.user-name.text-decoration-none > span'
 upvote_selector = 'div.d-flex.flex-row-reverse.flex-md-row.flex-nowrap div.voting.my-2.d-none.d-md-flex.pr-2'
 
 # File path to save JSON data
-file_path = 'C:\\Users\\srrm4\\OneDrive\\Desktop\\vote.json'
+file_path = 'vote.json'
 
 def scrape_and_save():
     # Dictionary to hold the scraped data
