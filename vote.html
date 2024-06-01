@@ -51,22 +51,28 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        fetch('http://localhost:8000/vote.json')  // Update this to the actual path where your JSON file is accessible
-            .then(response => response.json())
-            .then(data => {
-                const tbody = document.querySelector('#leaderboard tbody');
+        const fetchData = () => {
+            fetch('http://localhost:8000/vote.json')  // Update this to the actual path where your JSON file is accessible
+                .then(response => response.json())
+                .then(data => {
+                    const tbody = document.querySelector('#leaderboard tbody');
+                    tbody.innerHTML = ''; // Clear existing rows
 
-                data.forEach(item => {
-                    const row = document.createElement('tr');
-                    row.innerHTML = `
-                        <td>${item.rank}</td>
-                        <td>${item.username}</td>
-                        <td>${item.score}</td>
-                    `;
-                    tbody.appendChild(row);
-                });
-            })
-            .catch(error => console.error('Error fetching data:', error));
+                    data.forEach(item => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${item.rank}</td>
+                            <td>${item.username}</td>
+                            <td>${item.score}</td>
+                        `;
+                        tbody.appendChild(row);
+                    });
+                })
+                .catch(error => console.error('Error fetching data:', error));
+        };
+
+        fetchData(); // Fetch data on page load
+        setInterval(fetchData, 180000); // Fetch data every 3 minutes (180000 ms)
     });
 </script>
 
