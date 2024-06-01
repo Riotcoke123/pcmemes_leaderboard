@@ -1,10 +1,12 @@
 import requests
 from bs4 import BeautifulSoup
 import json
+import time
+import re
 
 # Access token and Client ID
-access_token = ''
-client_id = ''
+access_token = 'uVQuT5zBpHnSaJpmJkKolramkwIUCTX4pAuYTUK4SnrCngk5Lp-w1QjMfLSskQrv-ljbRwUN6af40g8mH0XA8j0BYxmdxxTQgCF3GfKh6ucXd-v9LBYdvd4_D45sABHN'
+client_id = 'HD4kXXPjIlJ_VycPFS_4yI8q5CGq2uXSxEwUb4JuyTlK8qkCoWnLjnOc_0zL9Ffg'
 
 # List of URLs to scrape
 urls = [
@@ -20,63 +22,84 @@ headers = {
     'Authorization': f'Bearer {access_token}',
     'Client-ID': client_id,
     'Content-Type': 'application/json',
-    'X-Author': 'riotcoke'
+    'X-Author': 'riotcoke bot for pcmemes'
 }
 
 # CSS selectors
 username_selector = 'a.user-name.text-decoration-none > span'
-upvote_selector = 'div.d-flex.flex-row-reverse.flex-md-row.flex-nowrap'
+upvote_selector = 'div.d-flex.flex-row-reverse.flex-md-row.flex-nowrap div.voting.my-2.d-none.d-md-flex.pr-2'
 
-# Dictionary to hold the scraped data
-data_dict = {}
+# File path to save JSON data
+file_path = 'C:\\Users\\srrm4\\OneDrive\\Desktop\\vote.json'
 
-# Loop through each URL and scrape the data
-for url in urls:
-    response = requests.get(url, headers=headers)
-    soup = BeautifulSoup(response.content, 'html.parser')
-    
-    # Debugging: Print the response status and URL
-    print(f"Scraping {url} - Status Code: {response.status_code}")
+def scrape_and_save():
+    # Dictionary to hold the scraped data
+    data_dict = {}
 
-    usernames = soup.select(username_selector)
-    upvotes = soup.select(upvote_selector)
-
-    # Debugging: Check if selectors are capturing any data
-    print(f"Found {len(usernames)} usernames and {len(upvotes)} upvotes")
-
-    for username, upvote in zip(usernames, upvotes):
-        username_text = username.get_text().strip()
-        upvote_text = upvote.get_text().strip()
+    # Loop through each URL and scrape the data
+    for url in urls:
+        response = requests.get(url, headers=headers)
         
-        # Debugging: Print raw upvote text to understand its format
-        print(f"Raw upvote text: {upvote_text}")
+        # Handle rate limiting (status code 429)
+        if response.status_code == 429:
+            print(f"Rate limit exceeded for {url}. Sleeping for 60 seconds.")
+            time.sleep(60)
+            response = requests.get(url, headers=headers)
         
-        try:
-            upvote_value = int(upvote_text) * 0.00235789
-        except ValueError:
-            upvote_value = 0
+        if response.status_code == 200:
+            soup = BeautifulSoup(response.content, 'html.parser')
+            
+            # Debugging: Print the response status and URL
+            print(f"Scraping {url} - Status Code: {response.status_code}")
 
-        # Update the dictionary with the highest upvote value for each username
-        if username_text in data_dict:
-            if upvote_value > data_dict[username_text]:
-                data_dict[username_text] = upvote_value
+            usernames = soup.select(username_selector)
+            upvotes = soup.select(upvote_selector)
+
+            # Debugging: Check if selectors are capturing any data
+            print(f"Found {len(usernames)} usernames and {len(upvotes)} upvotes")
+
+            for username, upvote in zip(usernames, upvotes):
+                username_text = username.get_text().strip()
+                upvote_text = upvote.get_text().strip()
+
+                # Debugging: Print raw upvote text to understand its format
+                print(f"Raw upvote text: {upvote_text}")
+
+                # Extract the number of upvotes using regular expressions
+                match = re.search(r'(\d+)', upvote_text)
+                if match:
+                    upvote_number = int(match.group(1))
+                    upvote_value = upvote_number * 0.012543  # Multiply by 0.012543 (0.012543%)
+                else:
+                    upvote_value = 0
+
+                # Update the dictionary with the highest upvote value for each username
+                if username_text in data_dict:
+                    if upvote_value > data_dict[username_text]:
+                        data_dict[username_text] = upvote_value
+                else:
+                    data_dict[username_text] = upvote_value
+
         else:
-            data_dict[username_text] = upvote_value
+            print(f"Failed to scrape {url} - Status Code: {response.status_code}")
 
-# Convert the dictionary to a list of dictionaries and sort the data by upvote in descending order
-data = [{'username': k, 'upvote': v} for k, v in data_dict.items()]
-data.sort(key=lambda x: x['upvote'], reverse=True)
+    # Convert the dictionary to a list of dictionaries and sort the data by upvote in descending order
+    data = [{'username': k, 'score': v} for k, v in data_dict.items()]
+    data.sort(key=lambda x: x['score'], reverse=True)
 
-# Add ranking to the data
-for index, item in enumerate(data):
-    item['rank'] = index + 1
+    # Add ranking to the data
+    for index, item in enumerate(data):
+        item['rank'] = index + 1
 
-# Specify the path where the JSON file will be saved
-file_path = '\vote.json'
+    # Save the data to a JSON file
+    with open(file_path, 'w') as json_file:
+        json.dump(data, json_file, indent=4)
 
-# Save the data to a JSON file
-with open(file_path, 'w') as json_file:
-    json.dump(data, json_file, indent=4)
+    # Debugging: Print the final sorted and ranked data
+    print(json.dumps(data, indent=4))
 
-# Debugging: Print the final sorted and ranked data
-print(json.dumps(data, indent=4))
+# Loop to run the script every 3 minutes
+while True:
+    scrape_and_save()
+    print("Data scraped and saved. Waiting for 3 minutes...")
+    time.sleep(180)  # Sleep for 3 minutes
