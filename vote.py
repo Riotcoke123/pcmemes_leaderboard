@@ -3,10 +3,14 @@ from bs4 import BeautifulSoup
 import json
 import time
 import re
+import logging
+
+# Set up logging
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 # Access token and Client ID
-access_token = ''
-client_id = ''
+access_token = 'uVQuT5zBpHnSaJpmJkKolramkwIUCTX4pAuYTUK4SnrCngk5Lp-w1QjMfLSskQrv-ljbRwUN6af40g8mH0XA8j0BYxmdxxTQgCF3GfKh6ucXd-v9LBYdvd4_D45sABHN'
+client_id = 'HD4kXXPjIlJ_VycPFS_4yI8q5CGq2uXSxEwUb4JuyTlK8qkCoWnLjnOc_0zL9Ffg'
 
 # List of URLs to scrape
 urls = [
@@ -42,48 +46,41 @@ def scrape_and_save():
         
         # Handle rate limiting (status code 429)
         if response.status_code == 429:
-            print(f"Rate limit exceeded for {url}. Sleeping for 60 seconds.")
+            logging.warning(f"Rate limit exceeded for {url}. Sleeping for 60 seconds.")
             time.sleep(60)
             response = requests.get(url, headers=headers)
         
         if response.status_code == 200:
             soup = BeautifulSoup(response.content, 'html.parser')
-            
-            # Debugging: Print the response status and URL
-            print(f"Scraping {url} - Status Code: {response.status_code}")
+            logging.info(f"Scraping {url} - Status Code: {response.status_code}")
 
             usernames = soup.select(username_selector)
             upvotes = soup.select(upvote_selector)
 
-            # Debugging: Check if selectors are capturing any data
-            print(f"Found {len(usernames)} usernames and {len(upvotes)} upvotes")
+            logging.debug(f"Found {len(usernames)} usernames and {len(upvotes)} upvotes")
 
             for username, upvote in zip(usernames, upvotes):
                 username_text = username.get_text().strip()
                 upvote_text = upvote.get_text().strip()
 
-                # Debugging: Print raw upvote text to understand its format
-                print(f"Raw upvote text: {upvote_text}")
+                logging.debug(f"Raw upvote text: {upvote_text}")
 
-                # Extract the number of upvotes using regular expressions
                 match = re.search(r'(-?\d+)', upvote_text)  # Allow for negative numbers
                 if match:
                     upvote_number = int(match.group(1))
                 else:
                     upvote_number = 0
 
-                # Sum upvotes for each username
                 if username_text in data_dict:
-                    # Check if adding the new upvote will exceed 500,000
                     if data_dict[username_text] + upvote_number >= 50000:
-                        data_dict[username_text] = 0  # Reset score to 0
+                        data_dict[username_text] = 0
                     else:
                         data_dict[username_text] += upvote_number
                 else:
                     data_dict[username_text] = upvote_number
 
         else:
-            print(f"Failed to scrape {url} - Status Code: {response.status_code}")
+            logging.error(f"Failed to scrape {url} - Status Code: {response.status_code}")
 
     # Apply the multiplier (times 3) to the summed upvotes
     for username in data_dict:
@@ -101,11 +98,10 @@ def scrape_and_save():
     with open(file_path, 'w') as json_file:
         json.dump(data, json_file, indent=4)
 
-    # Debugging: Print the final sorted and ranked data
-    print(json.dumps(data, indent=4))
+    logging.info("Data scraped and saved successfully")
 
 # Loop to run the script every 3 minutes
 while True:
     scrape_and_save()
-    print("Data scraped and saved. Waiting for 3 minutes...")
-    time.sleep(180)  # Sleep for 3 minutes
+    logging.info("Waiting for 3 minutes before the next scrape...")
+    time.sleep(180)
