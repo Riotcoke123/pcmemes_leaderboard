@@ -5,8 +5,8 @@ import time
 import re
 
 # Access token and Client ID
-access_token = ''
-client_id = ''
+access_token = 'uVQuT5zBpHnSaJpmJkKolramkwIUCTX4pAuYTUK4SnrCngk5Lp-w1QjMfLSskQrv-ljbRwUN6af40g8mH0XA8j0BYxmdxxTQgCF3GfKh6ucXd-v9LBYdvd4_D45sABHN'
+client_id = 'HD4kXXPjIlJ_VycPFS_4yI8q5CGq2uXSxEwUb4JuyTlK8qkCoWnLjnOc_0zL9Ffg'
 
 # List of URLs to scrape
 urls = [
@@ -30,7 +30,7 @@ username_selector = 'a.user-name.text-decoration-none > span'
 upvote_selector = 'div.d-flex.flex-row-reverse.flex-md-row.flex-nowrap div.voting.my-2.d-none.d-md-flex.pr-2'
 
 # File path to save JSON data
-file_path = '\vote.json'
+file_path = 'C:\\Users\\srrm4\\OneDrive\\Desktop\\vote.json'
 
 def scrape_and_save():
     # Dictionary to hold the scraped data
@@ -74,7 +74,7 @@ def scrape_and_save():
 
                 # Sum upvotes for each username
                 if username_text in data_dict:
-                    # Check if adding the new upvote will exceed 50,000
+                    # Check if adding the new upvote will exceed 500,000
                     if data_dict[username_text] + upvote_number >= 50000:
                         data_dict[username_text] = 0  # Reset score to 0
                     else:
@@ -85,9 +85,9 @@ def scrape_and_save():
         else:
             print(f"Failed to scrape {url} - Status Code: {response.status_code}")
 
-    # Apply the 4.258% multiplier to the summed upvotes
+    # Apply the multiplier (times 3) to the summed upvotes
     for username in data_dict:
-        data_dict[username] *= 3
+        data_dict[username] *= 150
 
     # Convert the dictionary to a list of dictionaries and sort the data by score in descending order
     data = [{'username': k, 'score': v} for k, v in data_dict.items()]
