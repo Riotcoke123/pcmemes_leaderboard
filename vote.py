@@ -30,7 +30,7 @@ username_selector = 'a.user-name.text-decoration-none > span'
 upvote_selector = 'div.d-flex.flex-row-reverse.flex-md-row.flex-nowrap div.voting.my-2.d-none.d-md-flex.pr-2'
 
 # File path to save JSON data
-file_path = 'C:\\Users\\srrm4\\OneDrive\\Desktop\\vote.json'
+file_path = '\vote.json'
 
 def scrape_and_save():
     # Dictionary to hold the scraped data
