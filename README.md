@@ -38,11 +38,11 @@ This project is designed to scrape upvote data and usernames from pcmemes.net, r
     ```
 
 3. **Update Access Token and Client ID**:
-    Open the `scrape.py` file and update the `access_token` and `client_id` variables with your own credentials.
+    Open the `vote.py` file and update the `access_token` and `client_id` variables with your own credentials.
 
 4. **Run the scraper**:
     ```sh
-    python scrape.py
+    python vote.py
     ```
 
 </body>
