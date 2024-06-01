@@ -5,8 +5,8 @@ import time
 import re
 
 # Access token and Client ID
-access_token = ''
-client_id = ''
+access_token = 'uVQuT5zBpHnSaJpmJkKolramkwIUCTX4pAuYTUK4SnrCngk5Lp-w1QjMfLSskQrv-ljbRwUN6af40g8mH0XA8j0BYxmdxxTQgCF3GfKh6ucXd-v9LBYdvd4_D45sABHN'
+client_id = 'HD4kXXPjIlJ_VycPFS_4yI8q5CGq2uXSxEwUb4JuyTlK8qkCoWnLjnOc_0zL9Ffg'
 
 # List of URLs to scrape
 urls = [
@@ -22,7 +22,7 @@ headers = {
     'Authorization': f'Bearer {access_token}',
     'Client-ID': client_id,
     'Content-Type': 'application/json',
-    'X-Author': 'riotcoke bot for pcmemes'
+    'X-Author': 'PCMEMES.NET leaderboard by riotcoke'
 }
 
 # CSS selectors
@@ -30,7 +30,7 @@ username_selector = 'a.user-name.text-decoration-none > span'
 upvote_selector = 'div.d-flex.flex-row-reverse.flex-md-row.flex-nowrap div.voting.my-2.d-none.d-md-flex.pr-2'
 
 # File path to save JSON data
-file_path = 'vote.json'
+file_path = 'C:\\Users\\srrm4\\OneDrive\\Desktop\\vote.json'
 
 def scrape_and_save():
     # Dictionary to hold the scraped data
@@ -66,24 +66,26 @@ def scrape_and_save():
                 print(f"Raw upvote text: {upvote_text}")
 
                 # Extract the number of upvotes using regular expressions
-                match = re.search(r'(\d+)', upvote_text)
+                match = re.search(r'(-?\d+)', upvote_text)  # Allow for negative numbers
                 if match:
                     upvote_number = int(match.group(1))
-                    upvote_value = upvote_number * 0.012543  # Multiply by 0.012543 (0.012543%)
                 else:
-                    upvote_value = 0
+                    upvote_number = 0
 
-                # Update the dictionary with the highest upvote value for each username
+                # Sum upvotes for each username
                 if username_text in data_dict:
-                    if upvote_value > data_dict[username_text]:
-                        data_dict[username_text] = upvote_value
+                    data_dict[username_text] += upvote_number
                 else:
-                    data_dict[username_text] = upvote_value
+                    data_dict[username_text] = upvote_number
 
         else:
             print(f"Failed to scrape {url} - Status Code: {response.status_code}")
 
-    # Convert the dictionary to a list of dictionaries and sort the data by upvote in descending order
+    # Apply the 4.258% multiplier to the summed upvotes
+    for username in data_dict:
+        data_dict[username] *= 0.04258
+
+    # Convert the dictionary to a list of dictionaries and sort the data by score in descending order
     data = [{'username': k, 'score': v} for k, v in data_dict.items()]
     data.sort(key=lambda x: x['score'], reverse=True)
 
