@@ -10,7 +10,8 @@
     <img src="https://pcmemes.net/site/sidebar/art/16967534755346372.webp" alt="PC Memes Image" class="center-image">
 
     <h2>PCMEMES.NET Leaderboard</h2>
-    <table id="leaderboard">
+
+    <table id="leaderboard" class="container">
         <thead>
             <tr>
                 <th>Rank</th>
@@ -26,12 +27,11 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const fetchData = () => {
-                fetch('http://localhost:8000/vote.json')  // Update this to the actual path where your JSON file is accessible
+                fetch('http://localhost:8000/vote.json')
                     .then(response => response.json())
                     .then(data => {
                         const tbody = document.querySelector('#leaderboard tbody');
                         tbody.innerHTML = ''; // Clear existing rows
-
                         data.forEach(item => {
                             const row = document.createElement('tr');
                             row.innerHTML = `
