@@ -1,62 +1,62 @@
 [
     {
         "username": "AnonTHEGOD",
-        "score": 15150,
+        "score": 16650,
         "rank": 1
+    },
+    {
+        "username": "obese",
+        "score": 15750,
+        "rank": 2
     },
     {
         "username": "kadeemisbeststreamer",
         "score": 14100,
-        "rank": 2
+        "rank": 3
     },
     {
         "username": "LoreAlert",
         "score": 12300,
-        "rank": 3
-    },
-    {
-        "username": "obese",
-        "score": 12000,
         "rank": 4
     },
     {
         "username": "StrawberryCute",
-        "score": 10800,
+        "score": 11550,
         "rank": 5
     },
     {
         "username": "Jcups_Roofies",
-        "score": 7200,
+        "score": 10200,
         "rank": 6
-    },
-    {
-        "username": "Roachgang",
-        "score": 6900,
-        "rank": 7
     },
     {
         "username": "GreatValue",
         "score": 6000,
-        "rank": 8
+        "rank": 7
     },
     {
         "username": "Oaty",
         "score": 3600,
-        "rank": 9
+        "rank": 8
     },
     {
         "username": "TokyoTrump",
         "score": 3300,
-        "rank": 10
+        "rank": 9
     },
     {
         "username": "IRL_Clips",
         "score": 3000,
-        "rank": 11
+        "rank": 10
     },
     {
         "username": "REALRIOTCOKE",
         "score": 3000,
+        "rank": 11
+    },
+    {
+        "username": "Roachgang",
+        "score": 2400,
         "rank": 12
     }
 ]

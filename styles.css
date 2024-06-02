@@ -37,5 +37,6 @@ thead th {
     display: block;
     margin-left: auto;
     margin-right: auto;
-    width: 50%; /* Adjust width as needed */
+    width: 250px; /* Set width to 250 pixels */
+    height: 250px; /* Set height to 250 pixels */
 }
