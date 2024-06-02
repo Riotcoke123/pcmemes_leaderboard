@@ -9,8 +9,8 @@ import logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 # Access token and Client ID
-access_token = 'uVQuT5zBpHnSaJpmJkKolramkwIUCTX4pAuYTUK4SnrCngk5Lp-w1QjMfLSskQrv-ljbRwUN6af40g8mH0XA8j0BYxmdxxTQgCF3GfKh6ucXd-v9LBYdvd4_D45sABHN'
-client_id = 'HD4kXXPjIlJ_VycPFS_4yI8q5CGq2uXSxEwUb4JuyTlK8qkCoWnLjnOc_0zL9Ffg'
+access_token = ''
+client_id = ''
 
 # List of URLs to scrape
 urls = [
